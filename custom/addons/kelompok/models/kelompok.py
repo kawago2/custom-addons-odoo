@@ -5,7 +5,7 @@ from odoo import models, fields, api
 
 class kelompok(models.Model):
     _name = 'kelompok.kelompok'
-    _description = 'added'
+    _description = 'test commit github'
 
     name = fields.Char()
     value = fields.Integer()
