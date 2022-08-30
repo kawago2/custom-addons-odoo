@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_wikumart_kelompokbarang,access.wikumart.kelompokbarang,model_wikumart_kelompokbarang,,1,1,1,1
+access_wikumart_barang,access.wikumart.barang,model_wikumart_barang,,1,1,1,1

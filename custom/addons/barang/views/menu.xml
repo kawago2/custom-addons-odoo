@@ -2,15 +2,17 @@
 <odoo>
 
     <!-- This Menu Item will appear in the Upper bar, that's why It needs NO parent or action -->
+    <!--  Name of the menu item -->
     <menuitem
         id="barang_menu_root"
-        name="Barang"
+        name="Kawago Marketplace"  
         sequence="10"/>
 
     <!-- This Menu Item Must have a parent -->
+    <!--  Name of the sub-menu item -->
     <menuitem
         id="barang_menu_categ"
-        name="Barang"
+        name="Barang editor"
         parent="barang_menu_root"
         sequence="10"/>
 
