@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!-- kawagomart.kelompokbarang tree view -->
+<record id="kawagomart_kelompokbarang_view_tree" model="ir.ui.view">
+  <field name="name">kawagomart.kelompokbarang.view.tree</field>
+  <field name="model">kawagomart.kelompokbarang</field>
+  <field name="arch" type="xml">
+    <tree>
+      <!-- Add your fields here -->
+      <field name="name"/>
+      <field name="kode_kelompok"/>
+      <field name="kode_rak"/>
+      
+    </tree>
+  </field>
+</record>
+
+<!-- kawagomart.kelompokbarang form view -->
+<record id="kawagomart_kelompok_view_form" model="ir.ui.view">
+  <field name="name">kawagomart.kelompokbarang.view.form</field>
+  <field name="model">kawagomart.kelompokbarang</field>
+  <field name="arch" type="xml">
+    <form string="Kelompok Barang">
+      <sheet>
+          <!-- Add your fields here -->
+          <group name="Kelompok" string="Posisi Kelompok">
+            <field name="name"/>
+            <field name="kode_kelompok"/>
+            
+          
+        </group>
+          <!-- Add your fields here -->
+          <group name="Rak" string="Posisi Rak">
+            <field name="kode_rak"/>
+            <field name="barang_id"/>
+          </group>
+      </sheet>
+    </form>
+  </field>
+</record>
+
+	<record id="kawagomart_kelompokbarang_action" model="ir.actions.act_window">
+		<field name="name">Kelompok Barang</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">kawagomart.kelompokbarang</field>
+    <field name="view_mode">tree,form</field>
+	</record>
+	<!-- This Menu Item must have a parent and an action -->
+	<menuitem id="kawagomart_kelompokbarang_menu_act" name="Kelompok Barang" parent="kawagomart_barang_menu_categ" action="kawagomart_kelompokbarang_action" sequence="10" />
+</odoo>

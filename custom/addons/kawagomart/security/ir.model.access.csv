@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_kawagomart_kelompokbarang,access.kawagomart.kelompokbarang,model_kawagomart_kelompokbarang,,1,1,1,1
+access_kawagomart_barang,access.kawagomart.barang,model_kawagomart_barang,,1,1,1,1
