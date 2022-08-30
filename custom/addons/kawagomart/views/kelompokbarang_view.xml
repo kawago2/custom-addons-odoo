@@ -10,6 +10,9 @@
       <field name="name"/>
       <field name="kode_kelompok"/>
       <field name="kode_rak"/>
+
+      <field name="jml_item"/>
+      <field name="daftar"/>
       
     </tree>
   </field>
@@ -26,6 +29,7 @@
           <group name="Kelompok" string="Posisi Kelompok">
             <field name="name"/>
             <field name="kode_kelompok"/>
+            <field name="jml_item"/>
             
           
         </group>
