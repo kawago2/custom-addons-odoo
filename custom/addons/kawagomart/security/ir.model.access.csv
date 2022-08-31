@@ -1,3 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_kawagomart_kelompokbarang,access.kawagomart.kelompokbarang,model_kawagomart_kelompokbarang,,1,1,1,1
 access_kawagomart_barang,access.kawagomart.barang,model_kawagomart_barang,,1,1,1,1
+access_kawagomart_person,access.kawagomart.person,model_kawagomart_person,,1,1,1,1
+access_kawagomart_kasir,access.kawagomart.kasir,model_kawagomart_kasir,,1,1,1,1
+access_kawagomart_cleaningservice,access.kawagomart.cleaningservice,model_kawagomart_cleaningservice,,1,1,1,1
