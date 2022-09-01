@@ -9,4 +9,4 @@ class Barang(models.Model):
     harga_beli = fields.Integer(string='Harga Modal', required=True)
     harga_jual = fields.Integer(string='Harga Jual', required=True)
     kelompokbarang_id = fields.Many2one(
-        'kawagomart.kelompokbarang', string='Kelompok Barang')
+        'kawagomart.kelompokbarang', string='Kelompok Barang', ondelete='cascade')  # noqa
