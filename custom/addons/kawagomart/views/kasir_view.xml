@@ -2,28 +2,32 @@
 <odoo>
   <!-- kawagomart.kasir inherit tree view -->
   <record id="kawagomart_kasir_view_tree_inherit" model="ir.ui.view">
-    <field name="name">kawagomart.kasir.inherit.view.tree</field>
+    <field name="name">Daftar Kasir</field>
     <field name="model">kawagomart.kasir</field>
-    <!-- <field name="mode">primary</field> -->
-    <field name="inherit_id" ref="kawagomart_person_view_form" />
-    <!-- <field name="arch" type="xml">
-      <xpath expr="//field[@name='tgl_lahir']" position="after">
-        <field name="id_kasir"/>
+    <field name="mode">primary</field>
+    <field name="inherit_id" ref="kawagomart_person_view_tree" />
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='name']" position="before">
+        <field name="id_kasir" />
       </xpath>
-    </field> -->
+    </field>
   </record>
   <!-- kawagomart.kasir inherit form view -->
   <record id="kawagomart_kasir_view_form_inherit" model="ir.ui.view">
     <field name="name">Form Kasir</field>
-    <field name="model">kawagomart.kasir </field>
-    <!-- <field name="mode">primary</field> -->
+    <field name="model">kawagomart.kasir</field>
+    <field name="mode">primary</field>
     <field name="inherit_id" ref="kawagomart_person_view_form" />
-    <!-- <field name="arch" type="xml">
-          <xpath expr="//field[@name='tgl_lahir']" position="after">
-            <field name="id_kasir"/>
-          </xpath>
-          
-        </field> -->
+    <field name="arch" type="xml">
+      <xpath expr="//form//sheet//group[2]" position="after">
+        <group name="id" string="ID">
+          <field name="id_kasir" />
+        </group>
+      </xpath>
+      <xpath expr="//field[@name='alamat']" position="attributes">
+        <attribute name="string">Address</attribute>
+      </xpath>
+    </field>
   </record>
   <!-- kawagomart.kasir action window -->
   <record id="kawagomart_kasir_action" model="ir.actions.act_window">
