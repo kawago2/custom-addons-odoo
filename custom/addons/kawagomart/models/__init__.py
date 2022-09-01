@@ -5,3 +5,4 @@ from . import kelompokBarang
 from . import Barang
 from . import Person
 from . import Konsumen
+from . import Supplier
