@@ -15,3 +15,4 @@ class Barang(models.Model):
         string='Supplier',
         comodel_name='kawagomart.supplier',
     )
+    stok = fields.Integer(string='Stok', required=True)

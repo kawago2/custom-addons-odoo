@@ -22,6 +22,32 @@ class Penjualan(models.Model):
                 [('penjualan_id', '=', rec.id)]).mapped('subtotal')  # noqa
             rec.total_bayar = sum(a)
 
+    # penggunaan untuk odoo 15
+    # @api.ondelete(at_uninstall=False)
+    # def _ondelete_penjualan(self):
+    #     if self.detailpenjualan_ids:
+    #         a = []
+    #         for rec in self:
+    #             a = self.env['kawagomart.detailpenjualan'].search(  # noqa
+    #                 [('penjualan_id', '=', rec.id)])
+    #             # print(a) # for debugging
+    #         for ob in a:
+    #             # print(str(ob.barang_id.name) + ' ' + str(ob.qty)) # for debugging # noqa
+    #             ob.barang_id.stok += ob.qty
+
+    # untuk odoo 14 ke bawah
+    def unlink(self):
+        if self.detailpenjualan_ids:
+            a = []
+            for rec in self:
+                a = self.env['kawagomart.detailpenjualan'].search(  # noqa
+                    [('penjualan_id', '=', rec.id)])
+                # print(a) # for debugging
+            for ob in a:
+                # print(str(ob.barang_id.name) + ' ' + str(ob.qty)) # for debugging # noqa
+                ob.barang_id.stok += ob.qty
+        record = super(Penjualan, self).unlink()
+
 
 class DetailPenjualan(models.Model):
     _name = 'kawagomart.detailpenjualan'
@@ -48,3 +74,10 @@ class DetailPenjualan(models.Model):
 
     # @api.onchange('qty')
     # def _onchange_qty(self):
+
+    @api.model
+    def create(self, vals):
+        record = super(DetailPenjualan, self).create(vals)
+        if record.qty:
+            self.env['kawagomart.barang'].search([('id', '=', record.barang_id.id)]).write({'stok': record.barang_id.stok - record.qty})  # noqa
+        return record
