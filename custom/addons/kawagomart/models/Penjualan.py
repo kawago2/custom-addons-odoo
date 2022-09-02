@@ -13,7 +13,7 @@ class Penjualan(models.Model):
         string='Total Bayar', compute='_compute_totalbayar')
 
     detailpenjualan_ids = fields.One2many(
-        comodel_name='kawagomart.detailpenjualan', inverse_name='penjualan_id', string='Detail Penjualan')
+        comodel_name='kawagomart.detailpenjualan', inverse_name='penjualan_id', string='Detail Penjualan')  # noqa
 
     @api.onchange('detailpenjualan_ids')
     def _compute_totalbayar(self):
