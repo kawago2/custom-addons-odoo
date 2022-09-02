@@ -25,13 +25,14 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
-        'views/kelompokbarang_view.xml',
         'views/menu.xml',
+        'views/kelompokbarang_view.xml',
         'views/barang_view.xml',
         'views/person_view.xml',
         'views/kasir_view.xml',
         'views/konsumen_view.xml',
         'views/supplier_view.xml',
+        'views/penjualan_view.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

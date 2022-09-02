@@ -13,5 +13,5 @@ class Barang(models.Model):
 
     supplier_id = fields.Many2many(
         string='Supplier',
-        comodel_name='kawago.supplier',
+        comodel_name='kawagomart.supplier',
     )

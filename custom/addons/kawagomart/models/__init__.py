@@ -6,3 +6,4 @@ from . import Barang
 from . import Person
 from . import Konsumen
 from . import Supplier
+from . import Penjualan
