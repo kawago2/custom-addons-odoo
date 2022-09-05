@@ -1,4 +1,5 @@
-from odoo import api, fields, models, _
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class Penjualan(models.Model):
@@ -48,6 +49,9 @@ class Penjualan(models.Model):
                 ob.barang_id.stok += ob.qty
         record = super(Penjualan, self).unlink()
 
+    _sql_constraints = [
+        ('name_unique', 'UNIQUE(name)', 'No. Penjualan tidak boleh sama')]
+
 
 class DetailPenjualan(models.Model):
     _name = 'kawagomart.detailpenjualan'
@@ -81,3 +85,12 @@ class DetailPenjualan(models.Model):
         if record.qty:
             self.env['kawagomart.barang'].search([('id', '=', record.barang_id.id)]).write({'stok': record.barang_id.stok - record.qty})  # noqa
         return record
+
+    @api.constrains('qty')
+    def check_quantity(self):
+        for rec in self:
+            if rec.qty < 1:
+                raise ValidationError(
+                    "Mau belanja {} berapa banyak sih..".format(rec.barang_id.name))  # noqa
+            elif (rec.barang_id.stok < rec.qty):
+                raise ValidationError("Stok barang {} tidak mencukupi. hanya tersedia {}".format(rec.barang_id.name, rec.barang_id.stok))  # noqa
