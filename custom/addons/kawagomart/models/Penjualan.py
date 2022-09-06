@@ -24,19 +24,20 @@ class Penjualan(models.Model):
             rec.total_bayar = sum(a)
 
     # penggunaan untuk odoo 15
-    # @api.ondelete(at_uninstall=False)
-    # def _ondelete_penjualan(self):
-    #     if self.detailpenjualan_ids:
-    #         a = []
-    #         for rec in self:
-    #             a = self.env['kawagomart.detailpenjualan'].search(  # noqa
-    #                 [('penjualan_id', '=', rec.id)])
-    #             # print(a) # for debugging
-    #         for ob in a:
-    #             # print(str(ob.barang_id.name) + ' ' + str(ob.qty)) # for debugging # noqa
-    #             ob.barang_id.stok += ob.qty
+    @api.ondelete(at_uninstall=False)
+    def _ondelete_penjualan(self):
+        if self.detailpenjualan_ids:
+            a = []
+            for rec in self:
+                a = self.env['kawagomart.detailpenjualan'].search(  # noqa
+                    [('penjualan_id', '=', rec.id)])
+                # print(a) # for debugging
+            for ob in a:
+                # print(str(ob.barang_id.name) + ' ' + str(ob.qty)) # for debugging # noqa
+                ob.barang_id.stok += ob.qty
 
-    # untuk odoo 14 ke bawah
+    # # untuk odoo 14 ke bawah
+
     def unlink(self):
         if self.detailpenjualan_ids:
             a = []
@@ -48,9 +49,42 @@ class Penjualan(models.Model):
                 # print(str(ob.barang_id.name) + ' ' + str(ob.qty)) # for debugging # noqa
                 ob.barang_id.stok += ob.qty
         record = super(Penjualan, self).unlink()
+        return record
 
-    _sql_constraints = [
-        ('name_unique', 'UNIQUE(name)', 'No. Penjualan tidak boleh sama')]
+    def write(self, vals):
+        for rec in self:
+            a = self.env['kawagomart.detailpenjualan'].search(  # noqa
+                    [('penjualan_id', '=', rec.id)])
+            print(a)
+            for data in a:
+                # print(str(data.barang_id.name) +str(data.qty) + str(data.barang_id.stock))
+                data.barang_id.stok += data.qty
+        record = super(Penjualan, self).write(vals)
+        for rec in self:
+            b = self.env['kawagomart.detailpenjualan'].search(  # noqa
+                    [('penjualan_id', '=', rec.id)])
+            print(b)
+            for databaru in b:
+                if databaru in a:
+                    # print(str(data.barang_id.name) +str(data.qty) + str(data.barang_id.stock))
+                    data.barang_id.stok -= databaru.qty
+                else:
+                    pass
+        return record
+
+    # _sql_constraints = [
+    #     ('name_unique', 'UNIQUE(name)', 'No. Penjualan tidak boleh sama')]
+
+    @api.constrains('name')
+    def check_name(self):
+        for rec in self:
+            a = []
+            a = self.env['kawagomart.penjualan'].search(
+                [('name', '=', self.name)]).mapped('name')
+            b = len(a)
+            if b > 1:
+                if rec.name in a:
+                    raise ValidationError('No. Penjualan tidak boleh sama !!')
 
 
 class DetailPenjualan(models.Model):
@@ -85,6 +119,9 @@ class DetailPenjualan(models.Model):
         if record.qty:
             self.env['kawagomart.barang'].search([('id', '=', record.barang_id.id)]).write({'stok': record.barang_id.stok - record.qty})  # noqa
         return record
+
+    # _sql_constraints = [
+    #     ('no_qty_check', 'CHECK (qty<1)', 'Mau belanja berapa banyak sih..')]
 
     @api.constrains('qty')
     def check_quantity(self):
