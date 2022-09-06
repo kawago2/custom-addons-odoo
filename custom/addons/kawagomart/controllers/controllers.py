@@ -1,21 +1,39 @@
 # -*- coding: utf-8 -*-
-# from odoo import http
+from crypt import methods
+from odoo import http, models, fields
+from odoo.http import request
+import json
 
 
-# class Kawagomart(http.Controller):
-#     @http.route('/kawagomart/kawagomart', auth='public')
-#     def index(self, **kw):
-#         return "Hello, world"
+class Kawagomart(http.Controller):
+    @http.route('/kawagomart/getbarang', auth='public', methods=['GET'])
+    def getBarang(self, **kw):
+        barang = request.env['kawagomart.barang'].search([])
+        isi = []
+        for bb in barang:
+            isi.append({
+                'nama_barang': bb.name,
+                'harga': bb.harga_jual,
+                'stock': bb.stok,
+            })
+        return json.dumps(isi)
 
-#     @http.route('/kawagomart/kawagomart/objects', auth='public')
-#     def list(self, **kw):
-#         return http.request.render('kawagomart.listing', {
-#             'root': '/kawagomart/kawagomart',
-#             'objects': http.request.env['kawagomart.kawagomart'].search([]),
-#         })
+    @http.route('/kawagomart/getsupplier', auth='public', methods=['GET'])
+    def getSupplier(self, **kw):
+        supplier = request.env['kawagomart.supplier'].search([])
+        sup = []
+        for ss in supplier:
+            barang = []
+            for bb in ss.barang_id:
+                barang.append({'nama_barang': bb.name,
+                               'harga_satuan': bb.harga_jual,
+                               'stok': bb.stok,
+                               })
+            sup.append({
+                'nama_supplier': ss.name,
+                'alamat': ss.alamat,
+                'telepon': ss.no_telp,
+                'barang': barang,
+            })
 
-#     @http.route('/kawagomart/kawagomart/objects/<model("kawagomart.kawagomart"):obj>', auth='public')
-#     def object(self, obj, **kw):
-#         return http.request.render('kawagomart.object', {
-#             'object': obj
-#         })
+        return json.dumps(sup)
