@@ -7,4 +7,4 @@ access_kawagomart_cleaningservice,access.kawagomart.cleaningservice,model_kawago
 access_kawagomart_supplier,access.kawagomart.supplier,model_kawagomart_supplier,,1,1,1,1
 access_kawagomart_penjualan,access.kawagomart.penjualan,model_kawagomart_penjualan,,1,1,1,1
 access_kawagomart_detailpenjualan,access.kawagomart.detailpenjualan,model_kawagomart_detailpenjualan,,1,1,1,1
-
+access_kawagomart_barangdatang,access.kawagomart.barangdatang,model_kawagomart_barangdatang,,1,1,1,1
