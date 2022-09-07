@@ -15,8 +15,11 @@ class DaftarPenjualanExcel(models.AbstractModel):
         sheet.write(1, 0, 'Nama Barang', bold)
         sheet.write(1, 1, 'Nama Pembeli', bold)
         sheet.write(1, 2, 'Tanggal Penjualan', bold)
-        sheet.write(1, 3, 'Total Bayar', bold)
-        sheet.write(1, 4, 'Detail Penjualan', bold)
+        sheet.write(1, 3, 'List Barang', bold)
+        sheet.write(1, 4, 'Harga Satuan', bold)
+        sheet.write(1, 5, 'Quantity', bold)
+        sheet.write(1, 6, 'Subtotal', bold)
+        sheet.write(1, 7, 'Total Bayar', bold)
         row = 2
         col = 0
 
@@ -25,10 +28,13 @@ class DaftarPenjualanExcel(models.AbstractModel):
             sheet.write(row, col + 1, obj.nama_pembeli)
             sheet.write(
                 row, col + 2, obj.tgl_penjualan.strftime("%m/%d/%Y, %H:%M:%S"))
-            sheet.write(row, col + 3, obj.total_bayar)
-            sheet.write(
-                row, col + 4, obj.detailpenjualan_ids.barang_id.name)
-            sheet.write(row, col + 5, obj.detailpenjualan_ids.harga_satuan)
-            sheet.write(row, col + 6, obj.detailpenjualan_ids.qty)
-            sheet.write(row, col + 7, obj.detailpenjualan_ids.subtotal)
+            sheet.write(row, col + 7, obj.total_bayar)
+            for x in obj.detailpenjualan_ids:
+
+                sheet.write(
+                    row, col + 3, x.barang_id.name)
+                sheet.write(row, col + 4, x.harga_satuan)
+                sheet.write(row, col + 5, x.qty)
+                sheet.write(row, col + 6, x.subtotal)
+                row += 1
             row += 1
