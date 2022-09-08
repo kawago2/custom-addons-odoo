@@ -25,6 +25,7 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'wizzard/barangdatang_wizzard_view.xml',
         'views/menu.xml',
         'views/kelompokbarang_view.xml',
         'views/barang_view.xml',
@@ -34,8 +35,10 @@
         'views/supplier_view.xml',
         'views/penjualan_view.xml',
         'views/direksi_view.xml',
+        'report/print_faktur_penjualan.xml',
         'report/report.xml',
-        'wizzard/barangdatang_wizzard_view.xml',
+        
+        
     ],
     # only loaded in demonstration mode
     'demo': [

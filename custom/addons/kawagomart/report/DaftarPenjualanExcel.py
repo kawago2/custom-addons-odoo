@@ -1,4 +1,3 @@
-from pyexpat import model
 from odoo import models, fields, api
 
 
