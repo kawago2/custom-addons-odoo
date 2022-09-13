@@ -7,10 +7,11 @@
     <field name="arch" type="xml">
       <tree>
         <!-- Add your fields here -->
-        <field name="name"/>
-        <field name="nama_pembeli"/>
-        <field name="tgl_penjualan"/>
-        <field name="total_bayar"/>
+        <field name="name" />
+        <field name="nama_pembeli" />
+        <field name="tgl_penjualan" />
+        <field name="total_bayar" />
+        <field name="state" />
       </tree>
     </field>
   </record>
@@ -20,21 +21,28 @@
     <field name="model">kawagomart.penjualan</field>
     <field name="arch" type="xml">
       <form string="Form Penjualan">
+        <header>
+          <button name="action_confirm" class="oe_highlight" string="Confirm" type="object" states="draft" />
+          <button name="action_done" string="Done" type="object" style="background-color:#77dd77;color:white; " states="confirm" />
+          <button name="action_draft" string="Rollback" type="object" class="btn btn-secondary" states="cancel" confirm="Anda yakin meng-rollback transaksi ini?" />
+          <button name="action_cancel" string="Cancel" type="object" class="btn btn-danger" states="done,confirm" confirm="Anda yakin meng-cancel transaksi ini?" />
+          <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done" />
+        </header>
         <sheet>
           <group>
             <!-- Add your fields here -->
-            <field name="name"/>
-            <field name="nama_pembeli"/>
-            <field name="tgl_penjualan"/>
-            <field name="total_bayar"/>
+            <field name="name" attrs="{'readonly' : [('state', '!=','draft')]}" />
+            <field name="nama_pembeli" attrs="{'readonly' : [('state', '!=','draft')]}" />
+            <field name="tgl_penjualan" attrs="{'readonly' : [('state', '!=','draft')]}" />
+            <field name="total_bayar" attrs="{'readonly' : [('state', '!=','draft')]}" />
           </group>
           <group name="daftarbarang" string="Daftar Barang">
-            <field name="detailpenjualan_ids">
+            <field name="detailpenjualan_ids" attrs="{'readonly' : [('state', '!=','draft')]}">
               <tree editable="bottom">
-                <field name="barang_id"/>
-                <field name="harga_satuan"/>
-                <field name="qty"/>
-                <field name="subtotal" sum="Total"/>
+                <field name="barang_id" />
+                <field name="harga_satuan" />
+                <field name="qty" />
+                <field name="subtotal" sum="Total" />
               </tree>
             </field>
           </group>
@@ -50,5 +58,5 @@
     <field name="view_mode">tree,form</field>
   </record>
   <!-- This Menu Item must have a parent and an action -->
-  <menuitem id="penjualan_view_menu_act" name="Penjualan" parent="kawagomart_transaksi_menu_categ" action="kawagomart_penjualan_action" sequence="10"/>
+  <menuitem id="penjualan_view_menu_act" name="Penjualan" parent="kawagomart_transaksi_menu_categ" action="kawagomart_penjualan_action" sequence="10" />
 </odoo>

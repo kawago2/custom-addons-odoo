@@ -1,4 +1,3 @@
-from unicodedata import name
 from odoo import api, fields, models
 
 

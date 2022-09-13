@@ -16,6 +16,9 @@ class Penjualan(models.Model):
     detailpenjualan_ids = fields.One2many(
         comodel_name='kawagomart.detailpenjualan', inverse_name='penjualan_id', string='Detail Penjualan')  # noqa
 
+    state = fields.Selection(string='Status', selection=[('draft', 'Draft'), ('confirm', 'Confirm'),  ('done', 'Done'),
+                                                            ('cancel', 'Cancel'), ], required=True, readonly=True, copy=False, tracking=True, default='draft')
+
     @api.onchange('detailpenjualan_ids')
     def _compute_totalbayar(self):
         for rec in self:
@@ -26,6 +29,11 @@ class Penjualan(models.Model):
     # penggunaan untuk odoo 15
     @api.ondelete(at_uninstall=False)
     def _ondelete_penjualan(self):
+        if self.filtered(lambda line: line.state != 'draft'):
+            raise ValidationError(
+                'You can only delete draft penjualan')
+        else:
+            pass
         if self.detailpenjualan_ids:
             a = []
             for rec in self:
@@ -37,19 +45,18 @@ class Penjualan(models.Model):
                 ob.barang_id.stok += ob.qty
 
     # # untuk odoo 14 ke bawah
-
-    def unlink(self):
-        if self.detailpenjualan_ids:
-            a = []
-            for rec in self:
-                a = self.env['kawagomart.detailpenjualan'].search(  # noqa
-                    [('penjualan_id', '=', rec.id)])
-                # print(a) # for debugging
-            for ob in a:
-                # print(str(ob.barang_id.name) + ' ' + str(ob.qty)) # for debugging # noqa
-                ob.barang_id.stok += ob.qty
-        record = super(Penjualan, self).unlink()
-        return record
+    # def unlink(self):
+    #     if self.detailpenjualan_ids:
+    #         a = []
+    #         for rec in self:
+    #             a = self.env['kawagomart.detailpenjualan'].search(  # noqa
+    #                 [('penjualan_id', '=', rec.id)])
+    #             # print(a) # for debugging
+    #         for ob in a:
+    #             # print(str(ob.barang_id.name) + ' ' + str(ob.qty)) # for debugging # noqa
+    #             ob.barang_id.stok += ob.qty
+    #     record = super(Penjualan, self).unlink()
+    #     return record
 
     def write(self, vals):
         for rec in self:
@@ -85,6 +92,18 @@ class Penjualan(models.Model):
             if b > 1:
                 if rec.name in a:
                     raise ValidationError('No. Penjualan tidak boleh sama !!')
+
+    def action_confirm(self):
+        self.write({'state': 'confirm'})
+
+    def action_done(self):
+        self.write({'state': 'done'})
+
+    def action_cancel(self):
+        self.write({'state': 'cancel'})
+
+    def action_draft(self):
+        self.write({'state': 'draft'})
 
 
 class DetailPenjualan(models.Model):
