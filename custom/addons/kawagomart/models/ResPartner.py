@@ -9,3 +9,7 @@ class ResPartner(models.Model):
     is_direksi = fields.Boolean(string='Direksi')
     poin = fields.Integer(string='Poin')
     level = fields.Char(string='Level')
+    id_member = fields.Char(
+        string='Id Member',
+        required=False,
+        domain="[('is_konsumen', '=', True)]")

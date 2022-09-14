@@ -1,5 +1,5 @@
 from odoo import api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError,UserError
 
 
 class Penjualan(models.Model):
@@ -7,9 +7,14 @@ class Penjualan(models.Model):
     _description = 'Penjualan'
 
     name = fields.Char(string='No. Penjualan')
-    nama_pembeli = fields.Char(string='Nama Pembeli')
+    nama_pembeli = fields.Many2one(
+        comodel_name="res.partner", string='Nama Pembeli')
+    id_member = fields.Char(
+        compute="_compute_id_member",
+        string='Id_member',
+        required=False)
     tgl_penjualan = fields.Datetime(
-        string='Tanggal Penjualan', default=fields.Datetime.now())
+        string='Tgl. Transaksi', default=fields.Datetime.now())
     total_bayar = fields.Integer(
         string='Total Bayar', compute='_compute_totalbayar')
 
@@ -18,6 +23,11 @@ class Penjualan(models.Model):
 
     state = fields.Selection(string='Status', selection=[('draft', 'Draft'), ('confirm', 'Confirm'),  ('done', 'Done'),
                                                             ('cancel', 'Cancel'), ], required=True, readonly=True, copy=False, tracking=True, default='draft')
+
+    @api.depends('nama_pembeli')
+    def _compute_id_member(self):
+        for rec in self:
+            rec.id_member = rec.nama_pembeli.id_member
 
     @api.onchange('detailpenjualan_ids')
     def _compute_totalbayar(self):
@@ -30,7 +40,7 @@ class Penjualan(models.Model):
     @api.ondelete(at_uninstall=False)
     def _ondelete_penjualan(self):
         if self.filtered(lambda line: line.state != 'draft'):
-            raise ValidationError(
+            raise UserError(
                 'You can only delete draft penjualan')
         else:
             pass

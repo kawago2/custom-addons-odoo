@@ -2,3 +2,4 @@
 
 
 from . import BarangDatang
+from . import PenjualanReport

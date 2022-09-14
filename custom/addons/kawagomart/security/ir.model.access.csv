@@ -8,3 +8,4 @@ access_kawagomart_supplier,access.kawagomart.supplier,model_kawagomart_supplier,
 access_kawagomart_penjualan,access.kawagomart.penjualan,model_kawagomart_penjualan,,1,1,1,1
 access_kawagomart_detailpenjualan,access.kawagomart.detailpenjualan,model_kawagomart_detailpenjualan,,1,1,1,1
 access_kawagomart_barangdatang,access.kawagomart.barangdatang,model_kawagomart_barangdatang,,1,1,1,1
+access_kawagomart_penjualanreport,access.kawagomart.penjualanreport,model_kawagomart_penjualanreport,,1,1,1,1
