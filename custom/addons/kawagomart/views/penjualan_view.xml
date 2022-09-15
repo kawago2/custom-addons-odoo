@@ -5,14 +5,14 @@
     <field name="name">List Penjualan</field>
     <field name="model">kawagomart.penjualan</field>
     <field name="arch" type="xml">
-      <tree>
+      <tree decoration-info="state == 'draft'" decoration-danger="state == 'cancel'" decoration-success="state == 'done'" decoration-warning="state == 'confirm'" >
         <!-- Add your fields here -->
         <field name="name" />
         <field name="nama_pembeli" />
         <field name="id_member" />
         <field name="tgl_penjualan" />
         <field name="total_bayar" />
-        <field name="state" />
+        <field name="state"  />
       </tree>
     </field>
   </record>
@@ -37,6 +37,7 @@
             <field name="id_member" attrs="{'readonly' : [('state', '!=', 'draft')]}" />
             <field name="tgl_penjualan" attrs="{'readonly' : [('state', '!=','draft')]}" />
             <field name="total_bayar" attrs="{'readonly' : [('state', '!=','draft')]}" />
+
           </group>
           <group name="daftarbarang" string="Daftar Barang">
             <field name="detailpenjualan_ids" attrs="{'readonly' : [('state', '!=','draft')]}">
@@ -45,6 +46,7 @@
                 <field name="harga_satuan" />
                 <field name="qty" />
                 <field name="subtotal" sum="Total" />
+
               </tree>
             </field>
           </group>

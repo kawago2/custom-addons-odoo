@@ -6,7 +6,7 @@
     <field name="arch" type="xml">
       <form string="penjualanreport_wizzard_form">
         <group>
-          <field name="konsumen_id" />
+          <field name="konsumen_id" domain="[('is_konsumen', '=', 'True')]" />
         </group>
         <group>
           <field name="dari_tgl" />
